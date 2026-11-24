@@ -135,15 +135,17 @@
 }
 </script>
 <script src="./support.js"></script>
+<script src="i18n.js?v=20261124services"></script>
+<script src="./image-slot.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="icon" type="image/png" href="mark-brand.png"><link rel="apple-touch-icon" href="mark-brand.png">
-<script src="i18n.js?v=20261124services"></script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-<script src="./image-slot.js"></script>
+
 <style>
 html{scroll-behavior:smooth}
 body{margin:0;background:#F5F1EA;color:#24484B;font-family:Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
@@ -162,6 +164,20 @@ a,button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 input,select,textarea,button{font-family:inherit;border-radius:0}
 input,textarea{-webkit-appearance:none;appearance:none}
 ::selection{background:#E4DDD1}
+@media(max-width:600px){
+header > div{gap:8px!important;padding:12px 12px!important}
+header > div > a{gap:6px!important;min-width:0}
+header > div > a > img{height:40px!important;flex:0 0 auto}
+header > div > a > span > span:first-child{font-size:20px!important;letter-spacing:.09em!important;padding-left:8px!important}
+header > div > a > span > span:last-child{font-size:8px!important;letter-spacing:.12em!important;gap:3px!important}
+header > div > a > span > span:last-child > span{width:7px!important}
+header > div > div{gap:4px!important;flex:0 0 auto}
+header button[aria-expanded]{height:40px!important;padding:0 10px!important;font-size:11px!important}
+}
+@media(max-width:350px){
+header > div > a > span > span:last-child{display:none!important}
+header > div > a > span > span:first-child{padding-left:0!important;font-size:18px!important}
+}
 </style>
 </helmet>
 
@@ -260,9 +276,9 @@ input,textarea{-webkit-appearance:none;appearance:none}
         <div style="aspect-ratio:4/5;overflow:hidden;background:#E4DDD1">
           <div style="width:100%;height:100%;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)" style-hover="transform:scale(1.04)"><image-slot id="{{ s.slot }}" shape="rect" placeholder="{{ s.ph }}" src="{{ s.src }}"></image-slot></div>
         </div>
-        <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #B08D57;padding-top:16px">
-          <span style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:500">{{ s.name }}</span>
-          <span style="font-size:11px;letter-spacing:.2em;color:#5C4332;font-weight:600">{{ s.num }}</span>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:14px;border-top:1px solid #B08D57;padding-top:16px">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,2.1vw,30px);font-weight:500;min-width:0">{{ s.name }}</span>
+          <span style="font-size:11px;letter-spacing:.2em;color:#5C4332;font-weight:600;flex:0 0 auto">{{ s.num }}</span>
         </div>
         <p style="margin:0;font-size:14px;line-height:1.7;color:#44585A">{{ s.copy }}</p>
       </a>

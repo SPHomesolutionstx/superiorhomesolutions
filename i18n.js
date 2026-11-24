@@ -119,7 +119,7 @@
     'What does the warranty cover?': '¿Qué cubre la garantía?',
     'Our lifetime limited warranty covers the cabinetry, hardware and workmanship for as long as you own your home.': 'Nuestra garantía limitada de por vida cubre los gabinetes, herrajes y mano de obra mientras sea dueño de su hogar.',
     'CALL OR TEXT': 'LLAME O ENVÍE MENSAJE', 'Mon–Sat 8am–6pm · Sun by appointment': 'Lun–Sáb 8am–6pm · Dom con cita', 'EMAIL': 'CORREO',
-    'We reply within one business day': 'Respondemos en un día hábil', 'DESIGN STUDIO': 'ESTUDIO DE DISEÑO', 'Visits by appointment': 'Visitas con cita'
+    'We reply within one business day': 'Respondemos en un día hábil', 'DESIGN STUDIO': 'ESTUDIO DE DISEÑO', 'Visits by appointment': 'Visitas con cita',
     'Free in-home consultation': 'Consulta gratuita en su hogar',
     'Discuss your space, measurements and options.': 'Hablemos de su espacio, las medidas y las opciones disponibles.',
     'Detail-focused installation': 'Instalación con atención a los detalles',

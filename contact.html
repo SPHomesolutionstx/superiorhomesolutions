@@ -20,15 +20,17 @@
 <meta name="twitter:image" content="https://superiorhomesolutionstx.com/hero-closet.png">
 
 <script src="./support.js"></script>
+<script src="i18n.js?v=20261124a"></script>
+<script src="./image-slot.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
 <link rel="icon" type="image/png" href="mark-brand.png"><link rel="apple-touch-icon" href="mark-brand.png">
-<script src="i18n.js?v=20261124a"></script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-<script src="./image-slot.js"></script>
+
 <style>
 body{margin:0;background:#F5F1EA;color:#24484B;font-family:Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:#5C4332;text-decoration:none}
@@ -39,6 +41,15 @@ img{max-width:100%}
 a,button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 input,select,textarea,button{font-family:inherit;border-radius:0}
 input,textarea{-webkit-appearance:none;appearance:none}
+@media(max-width:700px){
+header > div{gap:10px!important;padding:12px 16px!important}
+header nav{gap:12px!important}
+header nav > a[href="/#projects"],header nav > a[href="/#process"]{display:none!important}
+header nav > a[href="/#consult"]{padding:10px 12px!important;font-size:11px!important}
+.contact-channel{gap:8px!important}
+.contact-channel-value{font-size:clamp(19px,5.4vw,26px)!important;overflow-wrap:anywhere;line-height:1.1}
+.contact-channel-arrow{flex:0 0 auto}
+}
 </style>
 </helmet>
 
@@ -76,13 +87,13 @@ input,textarea{-webkit-appearance:none;appearance:none}
 <section style="max-width:1360px;margin:0 auto;padding:0 clamp(20px,4vw,32px) clamp(72px,10vw,120px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:64px;align-items:start">
   <div style="display:flex;flex-direction:column;gap:0">
     <sc-for list="{{ channels }}" as="c" hint-placeholder-count="4">
-      <a href="{{ c.href }}" data-reveal="up" style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;border-top:1px solid #E4DDD1;color:#24484B" style-hover="color:#5C4332">
+      <a class="contact-channel" href="{{ c.href }}" data-reveal="up" style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;border-top:1px solid #E4DDD1;color:#24484B" style-hover="color:#5C4332">
         <div style="display:flex;flex-direction:column;gap:8px">
           <span style="font-size:11px;letter-spacing:.24em;color:#B08D57;font-weight:600">{{ c.label }}</span>
-          <span style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,2.4vw,32px)">{{ c.value }}</span>
+          <span class="contact-channel-value" style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,2.4vw,32px)">{{ c.value }}</span>
           <span style="font-size:13px;color:#44585A">{{ c.note }}</span>
         </div>
-        <span style="font-size:20px;color:#5C4332">→</span>
+        <span class="contact-channel-arrow" style="font-size:20px;color:#5C4332">→</span>
       </a>
     </sc-for>
   </div>
