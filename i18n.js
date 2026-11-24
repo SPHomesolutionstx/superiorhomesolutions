@@ -76,6 +76,8 @@
     'Honest pricing': 'Precios honestos', 'One clear, all-inclusive quote.': 'Una cotización clara y todo incluido.',
     'SERVICE AREA': 'ÁREA DE SERVICIO', 'Locally owned. Serving homes across the greater Austin area.': 'De propiedad local. Servimos hogares en toda el área metropolitana de Austin.',
     'Our designers come to you.': 'Nuestros diseñadores van a usted.',
+    'Locally owned. Serving Greater Austin and Central Texas.': 'Empresa local. Atendemos el área metropolitana de Austin y el centro de Texas.',
+    'In-home design consultations.': 'Asesoría de diseño en su hogar.',
     'Custom cabinetry that feels like it belongs in your home. Made to your measurements, with the style you love and the storage you need.': 'Gabinetes a medida que se sienten parte de su hogar. Hechos a sus medidas, con el estilo que le encanta y el espacio de almacenamiento que necesita.',
     'From closets and pantries to home offices and garage cabinets, we create spaces that feel organized, look beautiful, and work better every day. Each design is tailored to your home, your style, and what you need to store.': 'Desde clósets y despensas hasta oficinas en casa y gabinetes de garaje, creamos espacios organizados, hermosos y que funcionan mejor cada día. Cada diseño se adapta a su hogar, su estilo y lo que necesita guardar.',
     'Precision installation and a clean finish, followed by a walkthrough with you to review every detail.': 'Instalación precisa y un acabado limpio, seguidos de un recorrido con usted para revisar cada detalle.',
