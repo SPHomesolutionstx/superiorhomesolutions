@@ -28,6 +28,12 @@ async function test(browser,size){
   const labels=await page.locator('#services .service-card').allTextContents();
   for(const name of ['Home Offices','Custom Closets & Wardrobes','Built-ins & Vanities','Custom Pantries','Garage Cabinets & Storage','Laundry Rooms','Mudrooms & Entryways'])
     assert(labels.some(x=>x.includes(name)),size.name+' missing '+name);
+  assert(await page.evaluate(()=>!!customElements.get('image-slot')),'ImageSlot component not registered');
+  const headerRects=await page.evaluate(()=>{
+    const h=document.querySelector('header'), brand=h.querySelector('a[href="/"]').getBoundingClientRect(), lang=h.querySelector('button[aria-label="Español"]').getBoundingClientRect();
+    return {brandRight:brand.right,languageLeft:lang.left};
+  });
+  assert(headerRects.brandRight<=headerRects.languageLeft+1,size.name+' Home logo overlaps language controls: '+JSON.stringify(headerRects));
   const sources=await page.locator('#services image-slot').evaluateAll(els=>els.map(x=>x.getAttribute('src')));
   assert.equal(sources.length,7);
   const bad=await page.evaluate(async srcs=>{
@@ -56,10 +62,15 @@ async function test(browser,size){
   await page.waitForTimeout(350);
   assert.equal(await page.locator('html').getAttribute('lang'),'en');
   assert((await page.locator('#services').innerText()).includes('Custom Pantries'),'English return missing');
+  const total=await page.evaluate(()=>document.body.scrollHeight);
+  for(let y=0;y<total;y+=600){await page.evaluate(pos=>window.scrollTo(0,pos),y);await page.waitForTimeout(35);}
+  await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(750);
   await shot(page,size.name+'-home');
   await page.goto(BASE+'/contact.html',{waitUntil:'domcontentloaded'});
   await page.waitForTimeout(500);
   await checkOverflow(page,size.name+' contact');
+  const channelRects=await page.locator('.contact-channel').evaluateAll(els=>els.map(el=>({right:el.querySelector('.contact-channel-arrow').getBoundingClientRect().right,viewport:window.innerWidth})));
+  assert(channelRects.every(x=>x.right<=x.viewport-2),size.name+' contact arrow clipped: '+JSON.stringify(channelRects));
   assert(await page.getByText('Send us a message',{exact:true}).count()>0,'Contact title missing');
   await page.getByRole('button',{name:'Español'}).first().click();
   await page.waitForTimeout(300);
