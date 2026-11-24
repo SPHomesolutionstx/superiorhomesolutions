@@ -4,7 +4,7 @@
   var KEY = 'shs-inquiry-source-v1';
   function clean(value, fallback) {
     var safe = String(value || '').replace(/[^a-zA-Z0-9 _./-]/g, '').trim().slice(0, 80);
-    return safe || fallback || 'Unknown';
+    return safe || (fallback === undefined ? 'Unknown' : fallback);
   }
   function referrerHost() {
     try {
