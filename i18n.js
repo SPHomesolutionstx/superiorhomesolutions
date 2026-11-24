@@ -5,7 +5,7 @@
     'CUSTOM CABINETRY · DESIGN + INSTALL': 'GABINETES A MEDIDA · DISEÑO + INSTALACIÓN',
     'Built by experience,': 'Construido con experiencia,', 'defined by details.': 'definido por los detalles.',
     "Cabinetry — designed in your home, built to your measurements, and installed by our own team. Beautiful cabinetry shouldn't be reserved for a few.": 'Gabinetes diseñados en su hogar, construidos a su medida e instalados por nuestro propio equipo. Los gabinetes hermosos no deberían ser solo para unos pocos.',
-    'BOOK A DESIGN CONSULT': 'AGENDAR CONSULTA DE DISEÑO', 'VIEW OUR WORK': 'VER NUESTRO TRABAJO',
+    'BOOK A DESIGN CONSULT': 'AGENDAR CONSULTA DE DISEÑO', 'VIEW OUR WORK': 'VER NUESTRO TRABAJO', 'EXPLORE DESIGN IDEAS': 'EXPLORAR IDEAS DE DISEÑO',
     'Free in-home design': 'Diseño gratuito en su hogar', 'Measured, planned and priced at no cost.': 'Medido, planificado y cotizado sin costo.',
     'Lifetime limited warranty': 'Garantía limitada de por vida', 'On every system, hinge and slide we install.': 'En cada sistema, bisagra y corredera que instalamos.',
     'Licensed & insured': 'Con licencia y seguro', 'Our own installers — never subcontracted.': 'Nuestros propios instaladores, nunca subcontratados.',
