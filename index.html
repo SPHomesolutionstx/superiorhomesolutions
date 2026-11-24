@@ -140,7 +140,7 @@
 <x-dc>
 <helmet>
 <link rel="icon" type="image/png" href="mark-brand.png"><link rel="apple-touch-icon" href="mark-brand.png">
-<script src="i18n.js?v=20261124a"></script>
+<script src="i18n.js?v=20261124services"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <script src="./image-slot.js"></script>
@@ -152,6 +152,12 @@ a:hover{color:#24484B}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 *,*::before,*::after{box-sizing:border-box}
 img{max-width:100%}
+.services-swipe-hint{display:none}
+@media(max-width:700px){
+#services .service-grid{display:grid!important;grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:min(82vw,320px);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;padding-bottom:14px}
+#services .service-card{scroll-snap-align:start;min-width:0}
+#services .services-swipe-hint{display:block}
+}
 a,button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 input,select,textarea,button{font-family:inherit;border-radius:0}
 input,textarea{-webkit-appearance:none;appearance:none}
@@ -248,9 +254,9 @@ input,textarea{-webkit-appearance:none;appearance:none}
     </div>
     <p data-reveal="up" data-delay="120" style="margin:0;font-size:16px;line-height:1.75;color:#44585A;max-width:480px;text-wrap:pretty">From closets and pantries to home offices and garage cabinets, we create spaces that feel organized, look beautiful, and work better every day. Each design is tailored to your home, your style, and what you need to store.</p>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:28px">
-    <sc-for list="{{ services }}" as="s" hint-placeholder-count="3">
-      <a href="#projects" data-reveal="up" style="display:flex;flex-direction:column;gap:18px;color:#24484B">
+  <div class="service-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:28px">
+    <sc-for list="{{ services }}" as="s" hint-placeholder-count="7">
+      <a class="service-card" href="#consult" data-reveal="up" style="display:flex;flex-direction:column;gap:18px;color:#24484B">
         <div style="aspect-ratio:4/5;overflow:hidden;background:#E4DDD1">
           <div style="width:100%;height:100%;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)" style-hover="transform:scale(1.04)"><image-slot id="{{ s.slot }}" shape="rect" placeholder="{{ s.ph }}" src="{{ s.src }}"></image-slot></div>
         </div>
@@ -262,21 +268,15 @@ input,textarea{-webkit-appearance:none;appearance:none}
       </a>
     </sc-for>
   </div>
-  <div style="margin-top:64px;border-top:1px solid #C9BFAE;padding-top:40px">
-    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px">
-      <span style="font-size:11px;letter-spacing:.24em;color:#A38355;font-weight:600">MORE SPACES &amp; FINISHING SERVICES</span>
-      <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-size:clamp(30px,3.4vw,44px);font-weight:500;color:#24484B">Thoughtful storage goes beyond the closet.</h3>
+  <p class="services-swipe-hint" style="font-size:12px;color:#557679;letter-spacing:.08em;margin:14px 0 0">Swipe to explore services →</p>
+  <div style="margin-top:42px;border-top:1px solid #C9BFAE;padding-top:28px">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;justify-content:space-between">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:11px;letter-spacing:.24em;color:#A38355;font-weight:600">ADDITIONAL SERVICES</span>
+        <p style="margin:0;font-size:14px;line-height:1.7;color:#44585A">Cabinet Hardware Installation · Trim &amp; Finish Carpentry · Handyman Services</p>
+      </div>
+      <a href="#consult" style="display:inline-block;border-bottom:1px solid #B08D57;color:#24484B;padding:10px 0;font-size:12px;letter-spacing:.12em;font-weight:600">DISCUSS YOUR PROJECT</a>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:28px 32px">
-      <div style="border-top:1px solid #B08D57;padding-top:18px"><h4 style="font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:500;margin:0 0 8px">Custom Pantries</h4><p style="font-size:14px;line-height:1.7;color:#44585A;margin:0">Shelves, pull-outs and dedicated storage planned around what you use every day.</p></div>
-      <div style="border-top:1px solid #B08D57;padding-top:18px"><h4 style="font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:500;margin:0 0 8px">Garage Cabinets &amp; Storage</h4><p style="font-size:14px;line-height:1.7;color:#44585A;margin:0">Cabinets and organization for tools, equipment and everyday essentials.</p></div>
-      <div style="border-top:1px solid #B08D57;padding-top:18px"><h4 style="font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:500;margin:0 0 8px">Laundry Rooms</h4><p style="font-size:14px;line-height:1.7;color:#44585A;margin:0">Practical cabinetry and folding space designed to simplify laundry day.</p></div>
-      <div style="border-top:1px solid #B08D57;padding-top:18px"><h4 style="font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:500;margin:0 0 8px">Mudrooms &amp; Entryways</h4><p style="font-size:14px;line-height:1.7;color:#44585A;margin:0">Benches, hooks and closed storage to keep busy entrances organized.</p></div>
-      <div style="border-top:1px solid #B08D57;padding-top:18px"><h4 style="font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:500;margin:0 0 8px">Cabinet Hardware Installation</h4><p style="font-size:14px;line-height:1.7;color:#44585A;margin:0">Accurate placement and installation of pulls, handles and knobs.</p></div>
-      <div style="border-top:1px solid #B08D57;padding-top:18px"><h4 style="font-family:'Cormorant Garamond',serif;font-size:27px;font-weight:500;margin:0 0 8px">Trim &amp; Finish Carpentry</h4><p style="font-size:14px;line-height:1.7;color:#44585A;margin:0">Clean transitions, fitted trim and detail-focused finishing work.</p></div>
-    </div>
-    <p style="font-size:14px;line-height:1.7;color:#44585A;margin:28px 0 18px">Have a different storage or handyman project in mind? Tell us what you're planning.</p>
-    <a href="#consult" style="display:inline-block;background:#24484B;color:#F5F1EA;padding:16px 24px;font-size:12px;letter-spacing:.14em;font-weight:600">DISCUSS YOUR PROJECT</a>
   </div>
 </section>
 
@@ -555,7 +555,8 @@ input,textarea{-webkit-appearance:none;appearance:none}
         <a href="#services" style="color:#E4DDD1" style-hover="color:#F5F1EA">Built-ins &amp; vanities</a>
         <a href="#services" style="color:#E4DDD1" style-hover="color:#F5F1EA">Custom pantries</a>
         <a href="#services" style="color:#E4DDD1" style-hover="color:#F5F1EA">Garage cabinets</a>
-        <a href="#services" style="color:#E4DDD1" style-hover="color:#F5F1EA">Laundry &amp; mudrooms</a>
+        <a href="#services" style="color:#E4DDD1" style-hover="color:#F5F1EA">Laundry rooms</a>
+        <a href="#services" style="color:#E4DDD1" style-hover="color:#F5F1EA">Mudrooms &amp; entryways</a>
         <a href="#services" style="color:#E4DDD1" style-hover="color:#F5F1EA">Hardware &amp; trim</a>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px;font-size:14px">
@@ -692,12 +693,13 @@ class Component extends DCLogic {
       wide, narrow: !wide, menuOpen: !wide && s.menu, menuLabel: s.menu ? 'CLOSE' : 'MENU',
       toggleMenu: () => this.setState({ menu: !s.menu }), closeMenu: () => this.setState({ menu: false }),
       services: [
-        { slot: 'svc-office', num: 'I', name: 'Home offices', ph: 'Home office photo', copy: 'A wall-to-wall desk gives you room to spread out, with drawers close at hand and lighted shelves for books and personal pieces.',
-          src: 'svc-office.jpg' },
-        { slot: 'svc-walkin', num: 'II', name: 'Closets & wardrobes', ph: 'Closet photo', copy: 'Double hanging rails make room for shirts and jackets, while deep drawers and glass-front cabinets keep folded pieces organized.',
-          src: 'svc-walkin.jpg' },
-        { slot: 'svc-builtin', num: 'III', name: 'Built-ins & vanities', ph: 'Built-in or vanity photo', copy: 'Lighted shelves frame your favorite artwork, while cabinets below keep everyday living room items tucked away.',
-          src: 'svc-builtin.jpg?v=9eecf93' },
+        { slot: 'svc-office', num: '01', name: 'Home Offices', ph: 'Custom home office cabinetry', copy: 'Built-in desks, cabinetry and shelving designed to make your workspace organized, comfortable and easy to use.', src: 'svc-office.jpg' },
+        { slot: 'svc-walkin', num: '02', name: 'Custom Closets & Wardrobes', ph: 'Custom closet and wardrobe cabinetry', copy: 'Custom storage for clothing, shoes and accessories, with thoughtful layouts, drawers and finishes chosen for your space.', src: 'svc-walkin.jpg' },
+        { slot: 'svc-builtin', num: '03', name: 'Built-ins & Vanities', ph: 'Built-in cabinetry', copy: 'Cabinetry that fits naturally into your home, adding practical storage, display space and a clean finished look.', src: 'svc-builtin.jpg?v=9eecf93' },
+        { slot: 'svc-pantry', num: '04', name: 'Custom Pantries', ph: 'Custom pantry shelves and pull-out storage', copy: 'Smart shelving, pull-outs and dedicated storage that make everything easier to find and put away.', src: 'svc-pantry.jpg' },
+        { slot: 'svc-garage', num: '05', name: 'Garage Cabinets & Storage', ph: 'Garage cabinetry and workbench', copy: 'Cabinets, worktops and tool storage designed to keep your garage functional and organized.', src: 'svc-garage.jpg' },
+        { slot: 'svc-laundry', num: '06', name: 'Laundry Rooms', ph: 'Laundry room cabinetry and appliances', copy: 'Well-planned cabinets, shelves and storage that keep supplies within reach and make laundry easier.', src: 'svc-laundry.jpg' },
+        { slot: 'svc-mudroom', num: '07', name: 'Mudrooms & Entryways', ph: 'Mudroom bench and cabinetry', copy: 'Benches, hooks and closed storage that give shoes, bags and everyday essentials a place of their own.', src: 'svc-mudroom.jpg' },
       ],
       filters: Object.keys(map).map(k => ({ label: k.toUpperCase(), bg: s.filter === k ? '#24484B' : 'transparent', fg: s.filter === k ? '#F5F1EA' : '#24484B', pick: () => this.setState({ filter: k }) })),
       projects: this.projects.map(p => { const on = !map[s.filter] || map[s.filter] === p.type, i = (s.pi || {})[p.key] || 0, len = p.imgs.length;
