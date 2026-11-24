@@ -23,7 +23,7 @@ async function test(browser,size){
  const page=await cx.newPage(),jsErrors=[];
  page.on('pageerror',e=>jsErrors.push(e.message));
  try{
-  await page.goto(BASE+'/',{waitUntil:'domcontentloaded',timeout:40000});
+  await page.goto(BASE+'/?utm_source=instagram&utm_medium=social&utm_campaign=closet_launch',{waitUntil:'domcontentloaded',timeout:40000});
   await page.locator('#services .service-card').first().waitFor({state:'attached',timeout:22000});
   await page.waitForFunction(()=>document.querySelectorAll('#services .service-card').length===7,null,{timeout:20000});
   await checkOverflow(page,size.name+' home');
@@ -104,6 +104,12 @@ async function test(browser,size){
   await page.locator('#consult button[type=submit]').click();
   await page.waitForTimeout(500);
   assert(leadPayload && leadPayload['Project types']==='Garage cabinets',size.name+' submission lost preselected service '+JSON.stringify(leadPayload));
+  assert.equal(leadPayload['Lead source'],'instagram');
+  assert.equal(leadPayload['Lead medium'],'social');
+  assert.equal(leadPayload['Campaign'],'closet_launch');
+  assert.equal(leadPayload['Landing page'],'/');
+  assert.equal(leadPayload['Submitted page'],'/');
+  assert(!JSON.stringify(leadPayload).includes('utm_source='),'Raw campaign URL leaked into inquiry');
   assert(await page.getByText('Your request is in. We’ll follow up using the contact details you provided within one business day.',{exact:true}).count()===1,'Correct consultation confirmation missing');
 
   const total=await page.evaluate(()=>document.body.scrollHeight);
@@ -122,21 +128,32 @@ async function test(browser,size){
   await page.getByRole('button',{name:'English'}).first().click();
   await page.waitForTimeout(300);
   assert.equal(await page.locator('html').getAttribute('lang'),'en');
-  await page.route('**/ajax/Info@superiorhomesolutionstx.com',r=>r.fulfill({status:200,contentType:'application/json',body:'{"success":"true"}'}));
+  let contactPayload=null;
+  await page.route('**/ajax/Info@superiorhomesolutionstx.com',r=>{
+    contactPayload=JSON.parse(r.request().postData());
+    return r.fulfill({status:200,contentType:'application/json',body:'{"success":"true"}'});
+  });
   await page.locator('form input').nth(0).fill('Test Customer');
   await page.locator('form input').nth(1).fill('sample@example.com');
   await page.locator('form textarea').fill('Responsive QA form test');
   await page.locator('form button[type=submit]').click();
   await page.waitForTimeout(500);
   assert.equal(await page.locator('form').count(),0,'mocked Contact submit did not show confirmation');
+  assert.equal(contactPayload['Lead source'],'instagram','Source not carried from home to contact');
+  assert.equal(contactPayload['Lead medium'],'social');
+  assert.equal(contactPayload['Campaign'],'closet_launch');
+  assert.equal(contactPayload['Landing page'],'/');
+  assert.equal(contactPayload['Submitted page'],'/contact.html');
   await shot(page,size.name+'-contact');
   await page.goto(BASE+'/privacy.html',{waitUntil:'domcontentloaded'});
   await page.waitForTimeout(250);
   await checkOverflow(page,size.name+' privacy');
   await page.locator('#es').click();
   assert(await page.locator('#copy-es').isVisible(),'Privacy ES not visible');
+  assert((await page.locator('#copy-es').innerText()).includes('enlace promocional'),'Missing Spanish lead-source privacy notice');
   await page.locator('#en').click();
   assert(await page.locator('#copy-en').isVisible(),'Privacy EN not visible');
+  assert((await page.locator('#copy-en').innerText()).includes('tagged promotional link'),'Missing English lead-source privacy notice');
   await shot(page,size.name+'-privacy');
   assert.deepEqual(jsErrors,[],size.name+' browser JS errors');
  }finally{await cx.close();}
