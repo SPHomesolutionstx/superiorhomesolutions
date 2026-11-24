@@ -203,7 +203,7 @@ header > div > a > span > span:first-child{padding-left:0!important;font-size:18
     </a>
     <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
       <nav style="display:flex;align-items:center;gap:36px;font-size:13px;letter-spacing:.06em">
-        <a href="#projects" style="color:#24484B" style-hover="color:#5C4332">Projects</a>
+        <a href="#projects" style="color:#24484B" style-hover="color:#5C4332">Inspiration</a>
         <a href="#about" style="color:#24484B" style-hover="color:#5C4332">About</a>
         <a href="#process" style="color:#24484B" style-hover="color:#5C4332">Process</a>
         <a href="#area" style="color:#24484B" style-hover="color:#5C4332">Service Area</a>
@@ -224,7 +224,7 @@ header > div > a > span > span:first-child{padding-left:0!important;font-size:18
   </div>
   <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
     <nav style="display:flex;flex-direction:column;padding:8px 24px 24px;max-height:calc(100vh - 90px);overflow-y:auto;-webkit-overflow-scrolling:touch;background:#F5F1EA;border-top:1px solid #E4DDD1">
-      <a href="#projects" onClick="{{ closeMenu }}" style="padding:14px 0;border-bottom:1px solid #E4DDD1;color:#24484B;font-family:'Cormorant Garamond',serif;font-size:24px">Projects</a>
+      <a href="#projects" onClick="{{ closeMenu }}" style="padding:14px 0;border-bottom:1px solid #E4DDD1;color:#24484B;font-family:'Cormorant Garamond',serif;font-size:24px">Inspiration</a>
       <a href="#about" onClick="{{ closeMenu }}" style="padding:14px 0;border-bottom:1px solid #E4DDD1;color:#24484B;font-family:'Cormorant Garamond',serif;font-size:24px">About</a>
       <a href="#process" onClick="{{ closeMenu }}" style="padding:14px 0;border-bottom:1px solid #E4DDD1;color:#24484B;font-family:'Cormorant Garamond',serif;font-size:24px">Process</a>
       <a href="#area" onClick="{{ closeMenu }}" style="padding:14px 0;border-bottom:1px solid #E4DDD1;color:#24484B;font-family:'Cormorant Garamond',serif;font-size:24px">Service Area</a>
@@ -280,7 +280,7 @@ header > div > a > span > span:first-child{padding-left:0!important;font-size:18
   </div>
   <div class="service-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:28px">
     <sc-for list="{{ services }}" as="s" hint-placeholder-count="7">
-      <a class="service-card" href="#consult" data-reveal="up" style="display:flex;flex-direction:column;gap:18px;color:#24484B">
+      <a class="service-card" href="#consult" onClick="{{ s.select }}" data-reveal="up" style="display:flex;flex-direction:column;gap:18px;color:#24484B">
         <div class="service-photo {{ s.photoClass }}" style="overflow:hidden;background:#E4DDD1">
           <div style="width:100%;height:100%;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)" style-hover="transform:scale(1.04)"><image-slot id="{{ s.slot }}" shape="rect" fit="{{ s.fit }}" placeholder="{{ s.ph }}" src="{{ s.src }}"></image-slot></div>
         </div>
@@ -305,11 +305,12 @@ header > div > a > span > span:first-child{padding-left:0!important;font-size:18
 </section>
 
 <!-- PROJECTS -->
-<section id="projects" data-screen-label="Projects" style="scroll-margin-top:84px;max-width:1360px;margin:0 auto;padding:clamp(60px,10vw,100px) clamp(20px,4vw,32px) clamp(72px,10vw,120px)">
+<section id="projects" data-screen-label="Inspiration" style="scroll-margin-top:84px;max-width:1360px;margin:0 auto;padding:clamp(60px,10vw,100px) clamp(20px,4vw,32px) clamp(72px,10vw,120px)">
   <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:28px;margin-bottom:44px">
     <div data-reveal="up">
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px"><span data-reveal="line" style="display:block;width:44px;height:1px;background:#B08D57"></span><span style="font-size:11px;letter-spacing:.28em;color:#B08D57;font-weight:600">FEATURED PROJECTS</span></div>
-      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(38px,4.4vw,64px);line-height:1.02">Recent work</h2>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:22px"><span data-reveal="line" style="display:block;width:44px;height:1px;background:#B08D57"></span><span style="font-size:11px;letter-spacing:.28em;color:#B08D57;font-weight:600">DESIGN INSPIRATION</span></div>
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(38px,4.4vw,64px);line-height:1.02">Ideas for your space</h2>
+       <p style="margin:14px 0 0;font-size:13px;line-height:1.7;color:#44585A;max-width:420px">Explore design ideas, finishes and layouts. Every installation is tailored to your home.</p>
     </div>
     <div data-reveal="up" data-delay="120" style="display:flex;flex-wrap:wrap;gap:8px">
       <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
@@ -517,7 +518,7 @@ header > div > a > span > span:first-child{padding-left:0!important;font-size:18
         <div style="display:flex;flex-direction:column;gap:20px;min-height:420px;justify-content:center">
           <span style="width:44px;height:1px;background:#B08D57"></span>
           <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:44px;line-height:1.05">Thank you, {{ firstName }}.</h3>
-          <p style="margin:0;font-size:16px;line-height:1.7;color:#44585A">Your request is in. A designer will call you within one business day to find a time that suits you.</p>
+          <p style="margin:0;font-size:16px;line-height:1.7;color:#44585A">Your request is in. We’ll follow up using the contact details you provided within one business day.</p>
           <button onClick="{{ resetForm }}" style="align-self:flex-start;background:none;border:none;border-bottom:1px solid #B08D57;padding:8px 0;font-size:12px;letter-spacing:.16em;font-weight:600;color:#24484B;cursor:pointer">SEND ANOTHER REQUEST</button>
         </div>
       </sc-if>
@@ -535,7 +536,7 @@ header > div > a > span > span:first-child{padding-left:0!important;font-size:18
             <span style="font-size:11px;letter-spacing:.2em;font-weight:600">WHAT ARE YOU PLANNING?</span>
             <div style="display:flex;flex-wrap:wrap;gap:8px">
               <sc-for list="{{ typeChips }}" as="c" hint-placeholder-count="5">
-                <button type="button" onClick="{{ c.toggle }}" style="background:{{ c.bg }};color:{{ c.fg }};border:1px solid #24484B;padding:10px 16px;min-height:44px;font-size:13px;cursor:pointer;transition:background .25s,color .25s">{{ c.label }}</button>
+                <button type="button" onClick="{{ c.toggle }}" aria-pressed="{{ c.selected }}" style="background:{{ c.bg }};color:{{ c.fg }};border:1px solid #24484B;padding:10px 16px;min-height:44px;font-size:13px;cursor:pointer;transition:background .25s,color .25s">{{ c.label }}</button>
               </sc-for>
             </div>
           </div>
@@ -717,14 +718,14 @@ class Component extends DCLogic {
       wide, narrow: !wide, menuOpen: !wide && s.menu, menuLabel: s.menu ? 'CLOSE' : 'MENU',
       toggleMenu: () => this.setState({ menu: !s.menu }), closeMenu: () => this.setState({ menu: false }),
       services: [
-        { slot: 'svc-office', num: '01', name: 'Home Offices', ph: 'Custom home office cabinetry', copy: 'Built-in desks, cabinetry and shelving designed to make your workspace organized, comfortable and easy to use.', src: 'svc-office.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
-        { slot: 'svc-walkin', num: '02', name: 'Custom Closets & Wardrobes', ph: 'Custom closet and wardrobe cabinetry', copy: 'Custom storage for clothing, shoes and accessories, with thoughtful layouts, drawers and finishes chosen for your space.', src: 'svc-walkin.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
-        { slot: 'svc-builtin', num: '03', name: 'Built-ins & Vanities', ph: 'Built-in cabinetry', copy: 'Cabinetry that fits naturally into your home, adding practical storage, display space and a clean finished look.', src: 'svc-builtin.jpg?v=9eecf93', photoClass: 'service-photo-portrait', fit: 'cover' },
-        { slot: 'svc-pantry', num: '04', name: 'Custom Pantries', ph: 'Custom pantry shelves and pull-out storage', copy: 'Smart shelving, pull-outs and dedicated storage that make everything easier to find and put away.', src: 'svc-pantry.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
-        { slot: 'svc-garage', num: '05', name: 'Garage Cabinets & Storage', ph: 'Garage cabinetry and workbench', copy: 'Cabinets, worktops and tool storage designed to keep your garage functional and organized.', src: 'svc-garage-full.webp', photoClass: 'service-photo-wide', fit: 'contain' },
-        { slot: 'svc-laundry', num: '06', name: 'Laundry Rooms', ph: 'Laundry room cabinetry and appliances', copy: 'Well-planned cabinets, shelves and storage that keep supplies within reach and make laundry easier.', src: 'svc-laundry-full.webp', photoClass: 'service-photo-wide', fit: 'contain' },
-        { slot: 'svc-mudroom', num: '07', name: 'Mudrooms & Entryways', ph: 'Mudroom bench and cabinetry', copy: 'Benches, hooks and closed storage that give shoes, bags and everyday essentials a place of their own.', src: 'svc-mudroom.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
-      ],
+        { slot: 'svc-office', topic: 'Home office', num: '01', name: 'Home Offices', ph: 'Custom home office cabinetry', copy: 'Built-in desks, cabinetry and shelving designed to make your workspace organized, comfortable and easy to use.', src: 'svc-office.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
+        { slot: 'svc-walkin', topic: 'Closet', num: '02', name: 'Custom Closets & Wardrobes', ph: 'Custom closet and wardrobe cabinetry', copy: 'Custom storage for clothing, shoes and accessories, with thoughtful layouts, drawers and finishes chosen for your space.', src: 'svc-walkin.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
+        { slot: 'svc-builtin', topic: 'Built-ins / kitchen', num: '03', name: 'Built-ins & Vanities', ph: 'Built-in cabinetry', copy: 'Cabinetry that fits naturally into your home, adding practical storage, display space and a clean finished look.', src: 'svc-builtin.jpg?v=9eecf93', photoClass: 'service-photo-portrait', fit: 'cover' },
+        { slot: 'svc-pantry', topic: 'Pantry', num: '04', name: 'Custom Pantries', ph: 'Custom pantry shelves and pull-out storage', copy: 'Smart shelving, pull-outs and dedicated storage that make everything easier to find and put away.', src: 'svc-pantry.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
+        { slot: 'svc-garage', topic: 'Garage cabinets', num: '05', name: 'Garage Cabinets & Storage', ph: 'Garage cabinetry and workbench', copy: 'Cabinets, worktops and tool storage designed to keep your garage functional and organized.', src: 'svc-garage-full.webp', photoClass: 'service-photo-wide', fit: 'contain' },
+        { slot: 'svc-laundry', topic: 'Laundry / mudroom', num: '06', name: 'Laundry Rooms', ph: 'Laundry room cabinetry and appliances', copy: 'Well-planned cabinets, shelves and storage that keep supplies within reach and make laundry easier.', src: 'svc-laundry-full.webp', photoClass: 'service-photo-wide', fit: 'contain' },
+        { slot: 'svc-mudroom', topic: 'Laundry / mudroom', num: '07', name: 'Mudrooms & Entryways', ph: 'Mudroom bench and cabinetry', copy: 'Benches, hooks and closed storage that give shoes, bags and everyday essentials a place of their own.', src: 'svc-mudroom.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
+      ].map(svc => ({ ...svc, select: () => this.set('types', [svc.topic]) })),
       filters: Object.keys(map).map(k => ({ label: k.toUpperCase(), bg: s.filter === k ? '#24484B' : 'transparent', fg: s.filter === k ? '#F5F1EA' : '#24484B', pick: () => this.setState({ filter: k }) })),
       projects: this.projects.map(p => { const on = !map[s.filter] || map[s.filter] === p.type, i = (s.pi || {})[p.key] || 0, len = p.imgs.length;
         return { ...p, op: on ? 1 : .28, filter: on ? 'none' : 'grayscale(1)', src: p.imgs[i], multi: len > 1, count: (i + 1) + ' / ' + len,
@@ -758,7 +759,7 @@ class Component extends DCLogic {
       errName: err(!f.name.trim()), errEmail: err(!/\S+@\S+\.\S+/.test(f.email)), errZip: err(!/^\d{5}(?:-\d{4})?$/.test(f.zip.trim())),
       hasError: s.tried && !this.valid(),
       typeChips: ['Closet', 'Pantry', 'Garage cabinets', 'Laundry / mudroom', 'Home office', 'Built-ins / kitchen', 'Hardware / trim', 'Not sure yet'].map(l => { const on = f.types.includes(l);
-        return { label: l, bg: on ? '#24484B' : 'transparent', fg: on ? '#F5F1EA' : '#24484B', toggle: () => this.set('types', on ? f.types.filter(t => t !== l) : [...f.types, l]) }; }),
+        return { label: l, selected: on, bg: on ? '#24484B' : 'transparent', fg: on ? '#F5F1EA' : '#24484B', toggle: () => this.set('types', on ? f.types.filter(t => t !== l) : [...f.types, l]) }; }),
       submitLabel: s.sending ? 'SENDING…' : 'REQUEST MY FREE CONSULT',
       submit: e => { e.preventDefault(); if (this._submitting) return; if (!this.valid()) return this.setState({ tried: true });
         this._submitting = true;
