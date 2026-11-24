@@ -162,6 +162,10 @@
     'Pricing depends on the size, materials, hardware and details of your project. We discuss your goals and budget before providing a written estimate.': 'El precio depende del tamaño, los materiales, los herrajes y los detalles del proyecto. Conversamos sobre sus objetivos y presupuesto antes de presentar una cotización por escrito.',
     'Shelving removal, patching and painting can be included when appropriate. Mention these needs during your consultation so the scope is clear in your estimate.': 'Podemos incluir el retiro de estantes, resane y pintura según el proyecto. Mencione estas necesidades durante la consulta para detallarlas en la cotización.',
     'Coverage depends on the selected materials, hardware and project scope. We explain any applicable product warranties and workmanship terms in your written proposal before work begins.': 'La cobertura depende de los materiales, herrajes y alcance del proyecto. Explicamos las garantías aplicables de productos y mano de obra en la propuesta escrita antes de comenzar.',
+    'Custom pantries': 'Despensas a medida',
+    'Garage cabinets': 'Gabinetes de garaje',
+    'Laundry & mudrooms': 'Lavandería y vestíbulos',
+    'Hardware & trim': 'Herrajes y molduras',
   };
   const PAT = [
     [/^Thank you, (.+)\.$/, 'Gracias, $1.'],
