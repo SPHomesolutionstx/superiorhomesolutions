@@ -19,8 +19,8 @@ jobs:
       - name: Install headless browser
         run: |
           npm install --no-save playwright
-          npx playwright install --with-deps chromium
-      - name: Test local website on three screen sizes
+          npx playwright install --with-deps chromium webkit
+      - name: Test website on Chrome and WebKit across screen sizes
         env:
           BASE_URL: http://127.0.0.1:8765
         run: |
