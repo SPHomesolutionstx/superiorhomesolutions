@@ -5,6 +5,7 @@ const path = require('node:path');
 const BASE = (process.env.BASE_URL || 'http://127.0.0.1:8765').replace(/\/$/, '');
 const sizes = [
   {name:'desktop',width:1440,height:900,isMobile:false,hasTouch:false},
+  {name:'laptop',width:1280,height:800,isMobile:false,hasTouch:false},
   {name:'tablet',width:768,height:1024,isMobile:false,hasTouch:true},
   {name:'mobile',width:390,height:844,isMobile:true,hasTouch:true},
   {name:'small-phone',width:320,height:700,isMobile:true,hasTouch:true}
@@ -40,6 +41,21 @@ async function test(browser,size){
     return {name:row.children[0].innerText,collision:t.right>n.left+1 && t.bottom>n.top && n.bottom>t.top};
   }));
   assert(!cardTitleOverlaps.some(x=>x.collision),size.name+' service title-number collision: '+JSON.stringify(cardTitleOverlaps));
+  const fullImageChecks=await page.locator('#services image-slot').evaluateAll(els=>els.filter(el=>/svc-(garage|laundry)/.test(el.id)).map(el=>{
+    const outer=el.closest('.service-photo'),w=outer.getBoundingClientRect().width,h=outer.getBoundingClientRect().height;
+    return {src:el.getAttribute('src'),fit:el.getAttribute('fit'),w,h,aspect:w/h};
+  }));
+  assert.equal(fullImageChecks.length,2,'Expected two uncropped landscape cards');
+  for(const img of fullImageChecks){
+    assert(img.src.endsWith('-full.webp'),'Old cropped source used: '+img.src);
+    assert.equal(img.fit,'contain','Photo was cropped by ImageSlot');
+    assert(Math.abs(img.aspect-1.5)<0.035,'Landscape frame missing: '+JSON.stringify(img));
+  }
+  if(size.name==='laptop'){
+    const cards=await page.locator('#services .service-card').evaluateAll(els=>els.slice(0,2).map(e=>e.getBoundingClientRect()));
+    assert(Math.abs(cards[0].top-cards[1].top)<6,'Laptop layout is not two columns');
+    assert(cards[0].width>450,'Laptop card too narrow');
+  }
   const sources=await page.locator('#services image-slot').evaluateAll(els=>els.map(x=>x.getAttribute('src')));
   assert.equal(sources.length,7);
   const bad=await page.evaluate(async srcs=>{
