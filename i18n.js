@@ -1,11 +1,11 @@
 (function () {
   const ES = {
-    'Projects': 'Proyectos', 'About': 'Nosotros', 'Process': 'Proceso', 'Service Area': 'Área de servicio', 'Contact': 'Contacto', 'Reviews': 'Reseñas',
+    'Projects': 'Proyectos', 'Inspiration': 'Inspiración', 'About': 'Nosotros', 'Process': 'Proceso', 'Service Area': 'Área de servicio', 'Contact': 'Contacto', 'Reviews': 'Reseñas',
     'BOOK A CONSULT': 'AGENDAR CONSULTA', 'MENU': 'MENÚ', 'CLOSE': 'CERRAR',
     'CUSTOM CABINETRY · DESIGN + INSTALL': 'GABINETES A MEDIDA · DISEÑO + INSTALACIÓN',
     'Built by experience,': 'Construido con experiencia,', 'defined by details.': 'definido por los detalles.',
     "Cabinetry — designed in your home, built to your measurements, and installed by our own team. Beautiful cabinetry shouldn't be reserved for a few.": 'Gabinetes diseñados en su hogar, construidos a su medida e instalados por nuestro propio equipo. Los gabinetes hermosos no deberían ser solo para unos pocos.',
-    'BOOK A DESIGN CONSULT': 'AGENDAR CONSULTA DE DISEÑO', 'VIEW OUR WORK': 'VER NUESTRO TRABAJO',
+    'BOOK A DESIGN CONSULT': 'AGENDAR CONSULTA DE DISEÑO', 'VIEW OUR WORK': 'VER NUESTRO TRABAJO', 'EXPLORE DESIGN IDEAS': 'EXPLORAR IDEAS DE DISEÑO',
     'Free in-home design': 'Diseño gratuito en su hogar', 'Measured, planned and priced at no cost.': 'Medido, planificado y cotizado sin costo.',
     'Lifetime limited warranty': 'Garantía limitada de por vida', 'On every system, hinge and slide we install.': 'En cada sistema, bisagra y corredera que instalamos.',
     'Licensed & insured': 'Con licencia y seguro', 'Our own installers — never subcontracted.': 'Nuestros propios instaladores, nunca subcontratados.',
@@ -16,7 +16,10 @@
     'Double hanging rails make room for shirts and jackets, while deep drawers and glass-front cabinets keep folded pieces organized.': 'Las barras a dos alturas ofrecen espacio para camisas y chaquetas. Los cajones profundos y los gabinetes con puertas de vidrio mantienen en orden la ropa doblada.',
     'Lighted shelves frame your favorite artwork, while cabinets below keep everyday living room items tucked away.': 'Las repisas iluminadas enmarcan su obra de arte favorita. Los gabinetes inferiores guardan fuera de la vista los objetos de uso diario en la sala.',
     'Home office photo': 'Foto de oficina en casa', 'Closet photo': 'Foto de clóset', 'Built-in or vanity photo': 'Foto de empotrado o tocador',
-    'FEATURED PROJECTS': 'PROYECTOS DESTACADOS', 'Recent work': 'Trabajo reciente', 'All': 'Todos', 'Kitchens': 'Cocinas', 'Closets': 'Clósets', 'Built-ins': 'Empotrados',
+    'FEATURED PROJECTS': 'PROYECTOS DESTACADOS',
+    'DESIGN INSPIRATION': 'INSPIRACIÓN DE DISEÑO',
+    'Ideas for your space': 'Ideas para su espacio',
+    'Explore design ideas, finishes and layouts. Every installation is tailored to your home.': 'Explore ideas de diseño, acabados y distribuciones. Cada instalación se adapta a su hogar.', 'Recent work': 'Trabajo reciente', 'All': 'Todos', 'Kitchens': 'Cocinas', 'Closets': 'Clósets', 'Built-ins': 'Empotrados',
     'KITCHEN': 'COCINA', 'CLOSET': 'CLÓSET', 'BUILT-IN': 'EMPOTRADO',
     'Hillcrest kitchen': 'Cocina Hillcrest', 'Linden Avenue primary walk-in': 'Vestidor principal Linden Avenue', 'Bayview library wall': 'Muro biblioteca Bayview',
     'Oak Ridge pantry': 'Despensa Oak Ridge', 'Maple Court his & hers': 'Clóset doble Maple Court', 'Stonegate double vanity': 'Tocador doble Stonegate',
@@ -190,9 +193,11 @@
     'ADDITIONAL SERVICES': 'SERVICIOS ADICIONALES',
     'Cabinet Hardware Installation · Trim & Finish Carpentry · Handyman Services': 'Instalación de herrajes · Molduras y carpintería de acabado · Servicios de mantenimiento',
     'Swipe to explore services →': 'Deslice para explorar los servicios →',
+    'Your request is in. We’ll follow up using the contact details you provided within one business day.': 'Recibimos su solicitud. Nos comunicaremos mediante los datos de contacto que proporcionó dentro de un día hábil.',
     'Laundry rooms': 'Cuartos de lavandería',
     'Mudrooms & entryways': 'Vestíbulos y entradas',
   };
+    // Updated consultation confirmation and gallery copy.
   const PAT = [
     [/^Thank you, (.+)\.$/, 'Gracias, $1.'],
     [/^Thanks, (.+)\. We'll be in touch by (.+) shortly\.$/, 'Gracias, $1. Nos pondremos en contacto pronto.']
