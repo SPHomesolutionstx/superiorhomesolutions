@@ -276,9 +276,9 @@ header > div > a > span > span:first-child{padding-left:0!important;font-size:18
         <div style="aspect-ratio:4/5;overflow:hidden;background:#E4DDD1">
           <div style="width:100%;height:100%;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)" style-hover="transform:scale(1.04)"><image-slot id="{{ s.slot }}" shape="rect" placeholder="{{ s.ph }}" src="{{ s.src }}"></image-slot></div>
         </div>
-        <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #B08D57;padding-top:16px">
-          <span style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:500">{{ s.name }}</span>
-          <span style="font-size:11px;letter-spacing:.2em;color:#5C4332;font-weight:600">{{ s.num }}</span>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:14px;border-top:1px solid #B08D57;padding-top:16px">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,2.1vw,30px);font-weight:500;min-width:0">{{ s.name }}</span>
+          <span style="font-size:11px;letter-spacing:.2em;color:#5C4332;font-weight:600;flex:0 0 auto">{{ s.num }}</span>
         </div>
         <p style="margin:0;font-size:14px;line-height:1.7;color:#44585A">{{ s.copy }}</p>
       </a>
