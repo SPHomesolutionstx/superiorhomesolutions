@@ -155,8 +155,16 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 *,*::before,*::after{box-sizing:border-box}
 img{max-width:100%}
 .services-swipe-hint{display:none}
+#services .service-photo{aspect-ratio:4/5}
+#services .service-photo.service-photo-wide{aspect-ratio:3/2}
+@media(min-width:701px) and (max-width:1399px){
+#services .service-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:32px!important}
+}
+@media(min-width:1400px){
+#services .service-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
 @media(max-width:700px){
-#services .service-grid{display:grid!important;grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:min(82vw,320px);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;padding-bottom:14px}
+#services .service-grid{display:grid!important;grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:100%;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;padding-bottom:14px}
 #services .service-card{scroll-snap-align:start;min-width:0}
 #services .services-swipe-hint{display:block}
 }
@@ -273,8 +281,8 @@ header > div > a > span > span:first-child{padding-left:0!important;font-size:18
   <div class="service-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:28px">
     <sc-for list="{{ services }}" as="s" hint-placeholder-count="7">
       <a class="service-card" href="#consult" data-reveal="up" style="display:flex;flex-direction:column;gap:18px;color:#24484B">
-        <div style="aspect-ratio:4/5;overflow:hidden;background:#E4DDD1">
-          <div style="width:100%;height:100%;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)" style-hover="transform:scale(1.04)"><image-slot id="{{ s.slot }}" shape="rect" placeholder="{{ s.ph }}" src="{{ s.src }}"></image-slot></div>
+        <div class="service-photo {{ s.photoClass }}" style="overflow:hidden;background:#E4DDD1">
+          <div style="width:100%;height:100%;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)" style-hover="transform:scale(1.04)"><image-slot id="{{ s.slot }}" shape="rect" fit="{{ s.fit }}" placeholder="{{ s.ph }}" src="{{ s.src }}"></image-slot></div>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:baseline;gap:14px;border-top:1px solid #B08D57;padding-top:16px">
           <span style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,2.1vw,30px);font-weight:500;min-width:0">{{ s.name }}</span>
@@ -709,13 +717,13 @@ class Component extends DCLogic {
       wide, narrow: !wide, menuOpen: !wide && s.menu, menuLabel: s.menu ? 'CLOSE' : 'MENU',
       toggleMenu: () => this.setState({ menu: !s.menu }), closeMenu: () => this.setState({ menu: false }),
       services: [
-        { slot: 'svc-office', num: '01', name: 'Home Offices', ph: 'Custom home office cabinetry', copy: 'Built-in desks, cabinetry and shelving designed to make your workspace organized, comfortable and easy to use.', src: 'svc-office.jpg' },
-        { slot: 'svc-walkin', num: '02', name: 'Custom Closets & Wardrobes', ph: 'Custom closet and wardrobe cabinetry', copy: 'Custom storage for clothing, shoes and accessories, with thoughtful layouts, drawers and finishes chosen for your space.', src: 'svc-walkin.jpg' },
-        { slot: 'svc-builtin', num: '03', name: 'Built-ins & Vanities', ph: 'Built-in cabinetry', copy: 'Cabinetry that fits naturally into your home, adding practical storage, display space and a clean finished look.', src: 'svc-builtin.jpg?v=9eecf93' },
-        { slot: 'svc-pantry', num: '04', name: 'Custom Pantries', ph: 'Custom pantry shelves and pull-out storage', copy: 'Smart shelving, pull-outs and dedicated storage that make everything easier to find and put away.', src: 'svc-pantry.jpg' },
-        { slot: 'svc-garage', num: '05', name: 'Garage Cabinets & Storage', ph: 'Garage cabinetry and workbench', copy: 'Cabinets, worktops and tool storage designed to keep your garage functional and organized.', src: 'svc-garage.jpg' },
-        { slot: 'svc-laundry', num: '06', name: 'Laundry Rooms', ph: 'Laundry room cabinetry and appliances', copy: 'Well-planned cabinets, shelves and storage that keep supplies within reach and make laundry easier.', src: 'svc-laundry.jpg' },
-        { slot: 'svc-mudroom', num: '07', name: 'Mudrooms & Entryways', ph: 'Mudroom bench and cabinetry', copy: 'Benches, hooks and closed storage that give shoes, bags and everyday essentials a place of their own.', src: 'svc-mudroom.jpg' },
+        { slot: 'svc-office', num: '01', name: 'Home Offices', ph: 'Custom home office cabinetry', copy: 'Built-in desks, cabinetry and shelving designed to make your workspace organized, comfortable and easy to use.', src: 'svc-office.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
+        { slot: 'svc-walkin', num: '02', name: 'Custom Closets & Wardrobes', ph: 'Custom closet and wardrobe cabinetry', copy: 'Custom storage for clothing, shoes and accessories, with thoughtful layouts, drawers and finishes chosen for your space.', src: 'svc-walkin.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
+        { slot: 'svc-builtin', num: '03', name: 'Built-ins & Vanities', ph: 'Built-in cabinetry', copy: 'Cabinetry that fits naturally into your home, adding practical storage, display space and a clean finished look.', src: 'svc-builtin.jpg?v=9eecf93', photoClass: 'service-photo-portrait', fit: 'cover' },
+        { slot: 'svc-pantry', num: '04', name: 'Custom Pantries', ph: 'Custom pantry shelves and pull-out storage', copy: 'Smart shelving, pull-outs and dedicated storage that make everything easier to find and put away.', src: 'svc-pantry.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
+        { slot: 'svc-garage', num: '05', name: 'Garage Cabinets & Storage', ph: 'Garage cabinetry and workbench', copy: 'Cabinets, worktops and tool storage designed to keep your garage functional and organized.', src: 'svc-garage-full.webp', photoClass: 'service-photo-wide', fit: 'contain' },
+        { slot: 'svc-laundry', num: '06', name: 'Laundry Rooms', ph: 'Laundry room cabinetry and appliances', copy: 'Well-planned cabinets, shelves and storage that keep supplies within reach and make laundry easier.', src: 'svc-laundry-full.webp', photoClass: 'service-photo-wide', fit: 'contain' },
+        { slot: 'svc-mudroom', num: '07', name: 'Mudrooms & Entryways', ph: 'Mudroom bench and cabinetry', copy: 'Benches, hooks and closed storage that give shoes, bags and everyday essentials a place of their own.', src: 'svc-mudroom.jpg', photoClass: 'service-photo-portrait', fit: 'cover' },
       ],
       filters: Object.keys(map).map(k => ({ label: k.toUpperCase(), bg: s.filter === k ? '#24484B' : 'transparent', fg: s.filter === k ? '#F5F1EA' : '#24484B', pick: () => this.setState({ filter: k }) })),
       projects: this.projects.map(p => { const on = !map[s.filter] || map[s.filter] === p.type, i = (s.pi || {})[p.key] || 0, len = p.imgs.length;
