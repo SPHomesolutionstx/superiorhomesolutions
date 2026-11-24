@@ -164,6 +164,20 @@ a,button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 input,select,textarea,button{font-family:inherit;border-radius:0}
 input,textarea{-webkit-appearance:none;appearance:none}
 ::selection{background:#E4DDD1}
+@media(max-width:600px){
+header > div{gap:8px!important;padding:12px 12px!important}
+header > div > a{gap:6px!important;min-width:0}
+header > div > a > img{height:40px!important;flex:0 0 auto}
+header > div > a > span > span:first-child{font-size:20px!important;letter-spacing:.09em!important;padding-left:8px!important}
+header > div > a > span > span:last-child{font-size:8px!important;letter-spacing:.12em!important;gap:3px!important}
+header > div > a > span > span:last-child > span{width:7px!important}
+header > div > div{gap:4px!important;flex:0 0 auto}
+header button[aria-expanded]{height:40px!important;padding:0 10px!important;font-size:11px!important}
+}
+@media(max-width:350px){
+header > div > a > span > span:last-child{display:none!important}
+header > div > a > span > span:first-child{padding-left:0!important;font-size:18px!important}
+}
 </style>
 </helmet>
 
