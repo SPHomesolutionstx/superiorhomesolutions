@@ -17,7 +17,7 @@ async function checkOverflow(page, label){
 }
 async function shot(page,name){await page.screenshot({path:path.join(out,name+'.png'),fullPage:true,timeout:30000});}
 async function test(browser,size){
- const cx=await browser.newContext({...size,deviceScaleFactor:1,locale:'en-US',reducedMotion:'reduce'});
+ const cx=await browser.newContext({viewport:{width:size.width,height:size.height},isMobile:size.isMobile,hasTouch:size.hasTouch,deviceScaleFactor:1,locale:'en-US',reducedMotion:'reduce'});
  const page=await cx.newPage(),jsErrors=[];
  page.on('pageerror',e=>jsErrors.push(e.message));
  try{
@@ -49,6 +49,7 @@ async function test(browser,size){
   }
   await page.getByRole('button',{name:'Español'}).first().click();
   await page.waitForTimeout(350);
+  console.log('HOME LANGUAGE STATE '+size.name,await page.evaluate(()=>({lang:document.documentElement.lang,stored:localStorage.getItem('shs-lang'),api:!!window.SHSi18n,apiLang:window.SHSi18n?.get?.(),viewport:innerWidth})));
   assert.equal(await page.locator('html').getAttribute('lang'),'es');
   assert((await page.locator('#services').innerText()).includes('Despensas a medida'),'Spanish pantry missing');
   await page.getByRole('button',{name:'English'}).first().click();
