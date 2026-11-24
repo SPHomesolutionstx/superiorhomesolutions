@@ -109,6 +109,7 @@ input,textarea{-webkit-appearance:none;appearance:none}
         <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#8A3B2E">Please add your name, a valid email and a short message.</span></sc-if>
         <sc-if value="{{ sendFail }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#8A3B2E">Something went wrong sending your request. Please call (512) 487-0654 or email Info@superiorhomesolutionstx.com.</span></sc-if>
         <button type="submit" style="background:#24484B;color:#F5F1EA;border:none;padding:20px 30px;font-size:12px;letter-spacing:.16em;font-weight:600;cursor:pointer;transition:background .3s" style-hover="background:#5C4332">{{ submitLabel }}</button>
+        <p style="margin:0;font-size:12px;line-height:1.7;color:#44585A">We use your details to respond to your request. Read our <a href="/privacy.html" style="color:#24484B;text-decoration:underline;text-underline-offset:3px">Privacy Policy</a>.</p>
       </form>
     </sc-if>
   </div>
@@ -158,7 +159,7 @@ input,textarea{-webkit-appearance:none;appearance:none}
       </div>
     </div>
     <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;border-top:1px solid #3D6164;padding-top:28px;font-size:12px;color:#C9C3B8">
-      <span>© 2026 Superior Home Solutions TX, LLC. All rights reserved.</span>
+      <span>© 2026 Superior Home Solutions TX, LLC. All rights reserved.</span><a href="/privacy.html" style="color:#E4DDD1;text-decoration:underline;text-underline-offset:3px">Privacy Policy</a>
     </div>
   </div>
 </footer>
@@ -189,11 +190,11 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state, f = s.f, err = c => (s.tried && c) ? '#8A3B2E' : '#24484B';
     const faqs = [
-      { q: 'Is the design consultation really free?', a: 'Yes. We measure, listen and prepare a 3D design with a written quote at no cost and with no obligation.' },
-      { q: 'How long does a project take?', a: 'Most projects are installed three to five weeks after you approve your design, while larger installs may take longer. Installation itself typically takes one to two days.' },
-      { q: 'What does custom cabinetry cost?', a: 'Smaller projects like a vanity or reach-in closet often start in the low thousands; media centers and full walk-ins vary with size and finishes. We design to your budget and show options at each level.' },
-      { q: 'Do you remove existing shelving and patch and paint the walls before installation?', a: 'Yes. We remove existing shelving and can patch and paint the walls so your new cabinetry goes onto a clean, finished surface. Just mention it during your consultation.' },
-      { q: 'What does the warranty cover?', a: 'Our lifetime limited warranty covers the cabinetry, hardware and workmanship for as long as you own your home.' },
+      { q: 'Is the design consultation really free?', a: 'Yes. The initial in-home consultation is free. We discuss your needs, take measurements and explain the next steps, including any design work or project pricing.' },
+      { q: 'How long does a project take?', a: 'Timelines depend on the design, materials, supplier lead times and installation scope. We review the estimated schedule with you before you approve the work.' },
+      { q: 'What does custom cabinetry cost?', a: 'Pricing depends on the size, materials, hardware and details of your project. We discuss your goals and budget before providing a written estimate.' },
+      { q: 'Do you remove existing shelving and patch and paint the walls before installation?', a: 'Shelving removal, patching and painting can be included when appropriate. Mention these needs during your consultation so the scope is clear in your estimate.' },
+      { q: 'What does the warranty cover?', a: 'Coverage depends on the selected materials, hardware and project scope. We explain any applicable product warranties and workmanship terms in your written proposal before work begins.' },
     ];
     return { ...this.langVals(), 
       channels: [
@@ -209,12 +210,15 @@ class Component extends DCLogic {
       errName: err(!f.name.trim()), errEmail: err(!/\S+@\S+\.\S+/.test(f.email)), errMsg: err(!f.msg.trim()),
       hasError: s.tried && !this.valid(),
       submitLabel: s.sending ? 'SENDING…' : 'SEND MESSAGE',
-      submit: e => { e.preventDefault(); if (!this.valid()) return this.setState({ tried: true });
+      submit: e => { e.preventDefault(); if (this._submitting) return; if (!this.valid()) return this.setState({ tried: true });
+        this._submitting = true;
         this.setState({ sending: true, sendFail: false });
         fetch('https://formsubmit.co/ajax/Info@superiorhomesolutionstx.com', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify({ _subject: 'New website message — ' + f.name, _template: 'table', _captcha: 'false', _replyto: f.email, Name: f.name, Email: f.email, Phone: f.phone || '—', Topic: s.topic, 'Preferred contact': s.method, Message: f.msg, Language: s.lang }) })
-          .then(r => r.json()).then(j => { if (String(j.success) !== 'true') throw 0; this.setState({ sending: false, sent: true }); })
-          .catch(() => this.setState({ sending: false, sendFail: true })); },
+          .then(r => { if (!r.ok) throw new Error('Form response failed'); return r.json(); })
+          .then(j => { if (j.success !== true && j.success !== 'true') throw new Error('Form delivery rejected'); this.setState({ sending: false, sent: true }); })
+          .catch(() => this.setState({ sending: false, sendFail: true }))
+          .finally(() => { this._submitting = false; }); },
       sendFail: !!s.sendFail,
       resetForm: () => this.setState({ sent: false, tried: false, f: { name: '', email: '', phone: '', msg: '' } }),
     };
