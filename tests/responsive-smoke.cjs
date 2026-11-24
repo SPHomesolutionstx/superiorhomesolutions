@@ -1,4 +1,4 @@
-const { chromium } = require('playwright');
+const { chromium, webkit } = require('playwright');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -6,7 +6,8 @@ const BASE = (process.env.BASE_URL || 'http://127.0.0.1:8765').replace(/\/$/, ''
 const sizes = [
   {name:'desktop',width:1440,height:900,isMobile:false,hasTouch:false},
   {name:'tablet',width:768,height:1024,isMobile:false,hasTouch:true},
-  {name:'mobile',width:390,height:844,isMobile:true,hasTouch:true}
+  {name:'mobile',width:390,height:844,isMobile:true,hasTouch:true},
+  {name:'small-phone',width:320,height:700,isMobile:true,hasTouch:true}
 ];
 const out=path.join(process.cwd(),'audit-screenshots');
 fs.mkdirSync(out,{recursive:true});
@@ -34,6 +35,11 @@ async function test(browser,size){
     return {brandRight:brand.right,languageLeft:lang.left};
   });
   assert(headerRects.brandRight<=headerRects.languageLeft+1,size.name+' Home logo overlaps language controls: '+JSON.stringify(headerRects));
+  const cardTitleOverlaps=await page.locator('#services .service-card').evaluateAll(els=>els.map(el=>{
+    const row=el.children[1];const t=row.children[0].getBoundingClientRect(),n=row.children[1].getBoundingClientRect();
+    return {name:row.children[0].innerText,collision:t.right>n.left+1 && t.bottom>n.top && n.bottom>t.top};
+  }));
+  assert(!cardTitleOverlaps.some(x=>x.collision),size.name+' service title-number collision: '+JSON.stringify(cardTitleOverlaps));
   const sources=await page.locator('#services image-slot').evaluateAll(els=>els.map(x=>x.getAttribute('src')));
   assert.equal(sources.length,7);
   const bad=await page.evaluate(async srcs=>{
@@ -105,5 +111,11 @@ async function test(browser,size){
     catch(e){failures.push(size.name+': '+String(e.stack||e.message));console.error('FAIL '+size.name+': '+String(e.stack||e.message));}
    }
  }finally{await browser.close();}
+ const safari=await webkit.launch({headless:true});
+ try{
+   const phone={name:'mobile-webkit',width:390,height:844,isMobile:true,hasTouch:true};
+   try{await test(safari,phone);console.log('PASS '+phone.name)}
+   catch(e){failures.push(phone.name+': '+String(e.stack||e.message));console.error('FAIL '+phone.name+': '+String(e.stack||e.message));}
+ }finally{await safari.close();}
  if(failures.length)process.exitCode=1;else console.log('ALL DEVICE TESTS PASSED');
 })();
