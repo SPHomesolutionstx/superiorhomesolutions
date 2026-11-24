@@ -136,6 +136,7 @@
 </script>
 <script src="./support.js"></script>
 <script src="./lead-source.js"></script>
+<script defer src="./analytics.js"></script>
 <script src="i18n.js?v=20261124services"></script>
 <script src="./image-slot.js"></script>
 </head>
@@ -768,7 +769,7 @@ class Component extends DCLogic {
         fetch('https://formsubmit.co/ajax/Info@superiorhomesolutionstx.com', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify(Object.assign({ _subject: 'New consult request — ' + f.name, _template: 'table', _captcha: 'false', _replyto: f.email, Name: f.name, Email: f.email, Phone: f.phone || '—', ZIP: f.zip, 'Project types': f.types.join(', ') || '—', 'Investment range': f.budget || 'Not sure yet', Message: f.msg || '—', Language: s.lang }, window.SHSLeadSource ? window.SHSLeadSource.fields() : {})) })
           .then(r => { if (!r.ok) throw new Error('Form response failed'); return r.json(); })
-          .then(j => { if (j.success !== true && j.success !== 'true') throw new Error('Form delivery rejected'); this.setState({ sending: false, sent: true }); })
+          .then(j => { if (j.success !== true && j.success !== 'true') throw new Error('Form delivery rejected'); this.setState({ sending: false, sent: true }); if (window.SHSAnalytics) window.SHSAnalytics.lead('consultation'); })
           .catch(() => this.setState({ sending: false, sendFail: true }))
           .finally(() => { this._submitting = false; }); },
       sendFail: !!s.sendFail,
