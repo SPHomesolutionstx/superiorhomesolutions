@@ -75,15 +75,37 @@ async function test(browser,size){
     assert.equal(await menu.getAttribute('aria-expanded'),'true');
     await menu.click();
   }
+  // A service card should take the customer to the consultation and preselect their project.
+  await page.locator('#services .service-card').nth(4).click();
+  await page.waitForTimeout(250);
+  assert.equal(await page.evaluate(()=>location.hash),'#consult','Service card did not navigate to consultation');
+  assert((await page.locator('#consult button[aria-pressed="true"]').allTextContents()).some(x=>x.includes('Garage cabinets')),size.name+' garage service not preselected');
+  assert(await page.getByText('Ideas for your space',{exact:true}).count()>0,'Inspiration gallery title missing');
   await page.getByRole('button',{name:'Español'}).first().click();
   await page.waitForTimeout(350);
   console.log('HOME LANGUAGE STATE '+size.name,await page.evaluate(()=>({lang:document.documentElement.lang,stored:localStorage.getItem('shs-lang'),api:!!window.SHSi18n,apiLang:window.SHSi18n?.get?.(),viewport:innerWidth})));
   assert.equal(await page.locator('html').getAttribute('lang'),'es');
   assert((await page.locator('#services').innerText()).includes('Despensas a medida'),'Spanish pantry missing');
+  assert(await page.getByText('Ideas para su espacio',{exact:true}).count()>0,'Inspiration title not translated');
+  assert((await page.locator('#consult button[aria-pressed="true"]').allTextContents()).some(x=>x.includes('Gabinetes de garaje')),size.name+' selected service did not translate');
   await page.getByRole('button',{name:'English'}).first().click();
   await page.waitForTimeout(350);
   assert.equal(await page.locator('html').getAttribute('lang'),'en');
   assert((await page.locator('#services').innerText()).includes('Custom Pantries'),'English return missing');
+  // Home form: intercept network request, verify selected project is included in submission.
+  let leadPayload=null;
+  await page.route('**/ajax/Info@superiorhomesolutionstx.com',route=>{
+    leadPayload=JSON.parse(route.request().postData());
+    return route.fulfill({status:200,contentType:'application/json',body:'{"success":"true"}'});
+  });
+  await page.locator('#consult input').nth(0).fill('Website Test');
+  await page.locator('#consult input').nth(1).fill('78745');
+  await page.locator('#consult input').nth(2).fill('test@example.com');
+  await page.locator('#consult button[type=submit]').click();
+  await page.waitForTimeout(500);
+  assert(leadPayload && leadPayload['Project types']==='Garage cabinets',size.name+' submission lost preselected service '+JSON.stringify(leadPayload));
+  assert(await page.getByText('Your request is in. We’ll follow up using the contact details you provided within one business day.',{exact:true}).count()===1,'Correct consultation confirmation missing');
+
   const total=await page.evaluate(()=>document.body.scrollHeight);
   for(let y=0;y<total;y+=600){await page.evaluate(pos=>window.scrollTo(0,pos),y);await page.waitForTimeout(35);}
   await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(750);
