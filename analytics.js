@@ -121,11 +121,20 @@
     if (panel) { panel.remove(); panel = null; }
     if (next === 'yes') loadGoogleTag();
     else {
-      clearAnalyticsCookies();
       if (wasLoaded) {
-        // Stop a previously loaded tag when preferences change.
-        location.reload();
+        // Stop measurement immediately before reloading without the Google tag.
+        window['ga-disable-' + MEASUREMENT_ID] = true;
+        if (typeof window.gtag === 'function') {
+          window.gtag('consent', 'update', {
+            analytics_storage: 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+          });
+        }
       }
+      clearAnalyticsCookies();
+      if (wasLoaded) location.reload();
     }
   }
 
