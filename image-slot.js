@@ -91,6 +91,7 @@
 /* END USAGE */
 
 (() => {
+  const staticImages = document.currentScript?.hasAttribute('data-static-images');
   const STATE_FILE = '.image-slots.state.json';
 
   // Unsplash terms require visible attribution wherever their photos
@@ -171,6 +172,10 @@
 
   function load() {
     if (loadP) return loadP;
+    if (staticImages && !window.omelette?.writeFile) {
+      loaded = true;
+      return loadP = Promise.resolve();
+    }
     loadP = fetch(STATE_FILE)
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
@@ -1095,7 +1100,8 @@
       // (Claude wrote it into the HTML) so it passes through unchanged.
       let stored = this.id ? getSlot(this.id) : this._local;
       if (stored && stored.u && !/^data:image\//i.test(stored.u)) stored = null;
-      const srcAttr = this.getAttribute('src') || '';
+      const source = this.getAttribute('src') || '';
+      const srcAttr = source.includes('{{') ? '' : source;
       this._userUrl = (stored && stored.u) || null;
       const url = this._userUrl || srcAttr;
       // Don't clobber an in-flight reframe with a store-triggered re-render.
