@@ -1,5 +1,12 @@
 (function () {
   const ES = {
+    'Pantries': 'Despensas',
+    'Previous photo': 'Foto anterior', 'Next photo': 'Foto siguiente',
+    'Greater Austin, Texas': 'Área metropolitana de Austin, Texas',
+    'Walnut walk-in closet': 'Vestidor en acabado nogal',
+    'Warm walnut finish with a glass-front display tower, five-drawer dresser, double hanging and angled shoe shelves.': 'Acabado en nogal cálido con una vitrina, una cómoda de cinco cajones, barras a dos alturas y repisas inclinadas para zapatos.',
+    'White walk-in pantry': 'Despensa blanca con encimera de granito',
+    'White shelves wrap around the corner, with vertical slots for cutting boards and open storage for cookware. Warm lighting brightens the dark granite prep counter.': 'Las repisas blancas rodean la esquina, con divisiones verticales para las tablas de cortar y espacio abierto para las ollas. Una luz cálida ilumina la encimera de granito oscuro.',
     'Mudroom drop zone': 'Recibidor con banco',
     'Charcoal cabinets frame a wood bench with two drawers. Warm downlights illuminate the slatted back and brass-tone hooks for bags and backpacks.': 'Los gabinetes color carbón enmarcan un banco de madera con dos cajones. La luz cálida resalta el panel de listones y los ganchos en tono latón para bolsos y mochilas.',
     'Projects': 'Proyectos', 'Inspiration': 'Inspiración', 'About': 'Nosotros', 'Process': 'Proceso', 'Service Area': 'Área de servicio', 'Contact': 'Contacto', 'Reviews': 'Reseñas',
@@ -213,7 +220,7 @@
     return null;
   };
   let lang = localStorage.getItem('shs-lang') || 'en', busy = false;
-  const ATTRS = ['placeholder', 'aria-label', 'title'];
+  const ATTRS = ['placeholder', 'aria-label', 'title', 'alt'];
   function applyNode(n) {
     if (n.nodeType === 3) {
       if (n.__es !== undefined && n.nodeValue === n.__es) { if (lang === 'en') n.nodeValue = n.__en; return; }
