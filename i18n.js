@@ -1,5 +1,7 @@
 (function () {
   const ES = {
+    'Mudroom drop zone': 'Recibidor con banco',
+    'Charcoal cabinets frame a wood bench with two drawers. Warm downlights illuminate the slatted back and brass-tone hooks for bags and backpacks.': 'Los gabinetes color carbón enmarcan un banco de madera con dos cajones. La luz cálida resalta el panel de listones y los ganchos en tono latón para bolsos y mochilas.',
     'Projects': 'Proyectos', 'Inspiration': 'Inspiración', 'About': 'Nosotros', 'Process': 'Proceso', 'Service Area': 'Área de servicio', 'Contact': 'Contacto', 'Reviews': 'Reseñas',
     'BOOK A CONSULT': 'AGENDAR CONSULTA', 'MENU': 'MENÚ', 'CLOSE': 'CERRAR',
     'CUSTOM CABINETRY · DESIGN + INSTALL': 'GABINETES A MEDIDA · DISEÑO + INSTALACIÓN',

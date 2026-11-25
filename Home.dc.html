@@ -9,11 +9,12 @@
 <x-dc>
 <helmet>
 <link rel="icon" type="image/png" href="mark-brand.png"><link rel="apple-touch-icon" href="mark-brand.png">
-<script src="i18n.js?v=8c851d4"></script>
+<script src="i18n.js?v=mudroom-charcoal"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <script src="./image-slot.js"></script>
 <style>
+#projects img[src="work-mudroom-charcoal.jpg"]{object-position:43% center}
 html{scroll-behavior:smooth}
 body{margin:0;background:#F5F1EA;color:#24484B;font-family:Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:#5C4332;text-decoration:none}
@@ -522,7 +523,7 @@ class Component extends DCLogic {
   projects = [
     { key: 'closet', name: 'Walnut walk-in closet', type: 'CLOSET', desc: 'Warm walnut finish with a glass-front display tower, five-drawer dresser, double hanging and angled shoe shelves.', imgs: [1,2,3,4,5].map(n => 'work-closet-' + n + '.jpg') },
     { key: 'pantry', name: 'White walk-in pantry', type: 'PANTRY', desc: 'Wraparound adjustable shelving, pull-out wood trays, wire baskets, lazy Susans and a marble-look prep counter.', imgs: ['work-pantry-new.png'] },
-    { key: 'mudroom', name: 'Mudroom drop zone', type: 'BUILT-IN', desc: 'Charcoal shaker uppers, a bench with deep drawers and a hook wall for coats and bags.', imgs: ['work-mudroom-2.png'] },
+    { key: 'mudroom', name: 'Mudroom drop zone', type: 'BUILT-IN', desc: 'Charcoal cabinets frame a wood bench with two drawers. Warm downlights illuminate the slatted back and brass-tone hooks for bags and backpacks.', imgs: ['work-mudroom-charcoal.jpg'] },
   ];
   step(k, d, len) { this.setState(s => ({ pi: { ...(s.pi || {}), [k]: (((s.pi || {})[k] || 0) + d + len) % len } })); }
 
