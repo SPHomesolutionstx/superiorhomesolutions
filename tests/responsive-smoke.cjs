@@ -23,7 +23,17 @@ async function test(browser,size){
  const page=await cx.newPage(),jsErrors=[];
  page.on('pageerror',e=>jsErrors.push(e.message));
  try{
+  // Prevent test traffic from reaching real Google Analytics.
+  await page.route('**/gtag/js?**',r=>r.fulfill({status:200,contentType:'text/javascript',body:''}));
   await page.goto(BASE+'/?utm_source=instagram&utm_medium=social&utm_campaign=closet_launch',{waitUntil:'domcontentloaded',timeout:40000});
+  await page.locator('#shs-analytics-choice').waitFor({state:'visible',timeout:10000});
+  assert.equal(await page.locator('script[src*="googletagmanager.com/gtag/js"]').count(),0,'Google Analytics loaded before consent');
+  assert.equal(await page.evaluate(()=>window.SHSAnalytics?.hasConsent()),false,'Analytics consent initially granted');
+  await page.locator('#shs-analytics-accept').click();
+  assert.equal(await page.evaluate(()=>window.SHSAnalytics?.hasConsent()),true,'Analytics consent not saved');
+  assert.equal(await page.locator('script[src*="googletagmanager.com/gtag/js?id=G-TK32KZLXP6"]').count(),1,'Wrong GA4 tag or duplicated GA4 tag');
+  assert.equal(await page.evaluate(()=>localStorage.getItem('shs-analytics-choice-v1')),'yes');
+  assert.equal(await page.locator('#shs-analytics-choice').count(),0,'Banner not dismissed');
   await page.locator('#services .service-card').first().waitFor({state:'attached',timeout:22000});
   await page.waitForFunction(()=>document.querySelectorAll('#services .service-card').length===7,null,{timeout:20000});
   await checkOverflow(page,size.name+' home');
@@ -104,6 +114,10 @@ async function test(browser,size){
   await page.locator('#consult button[type=submit]').click();
   await page.waitForTimeout(500);
   assert(leadPayload && leadPayload['Project types']==='Garage cabinets',size.name+' submission lost preselected service '+JSON.stringify(leadPayload));
+  const homeLeads=await page.evaluate(()=>Array.from(window.dataLayer||[]).filter(a=>a[0]==='event'&&a[1]==='generate_lead').map(a=>Array.from(a)));
+  assert.equal(homeLeads.length,1,'Consultation lead not recorded exactly once');
+  assert.equal(homeLeads[0][2].form_type,'consultation','Wrong consultation form event');
+  assert(!JSON.stringify(homeLeads).includes('test@example.com'),'Personal email sent to GA4');
   assert.equal(leadPayload['Lead source'],'instagram');
   assert.equal(leadPayload['Lead medium'],'social');
   assert.equal(leadPayload['Campaign'],'closet_launch');
@@ -139,6 +153,10 @@ async function test(browser,size){
   await page.locator('form button[type=submit]').click();
   await page.waitForTimeout(500);
   assert.equal(await page.locator('form').count(),0,'mocked Contact submit did not show confirmation');
+  const contactLeads=await page.evaluate(()=>Array.from(window.dataLayer||[]).filter(a=>a[0]==='event'&&a[1]==='generate_lead').map(a=>Array.from(a)));
+  assert.equal(contactLeads.length,1,'Contact lead not recorded exactly once');
+  assert.equal(contactLeads[0][2].form_type,'contact','Wrong contact form event');
+  assert(!JSON.stringify(contactLeads).includes('sample@example.com'),'Personal email sent to GA4');
   assert.equal(contactPayload['Lead source'],'instagram','Source not carried from home to contact');
   assert.equal(contactPayload['Lead medium'],'social');
   assert.equal(contactPayload['Campaign'],'closet_launch');
@@ -151,16 +169,44 @@ async function test(browser,size){
   await page.locator('#es').click();
   assert(await page.locator('#copy-es').isVisible(),'Privacy ES not visible');
   assert((await page.locator('#copy-es').innerText()).includes('enlace promocional'),'Missing Spanish lead-source privacy notice');
+  assert((await page.locator('#copy-es').innerText()).includes('Google Analytics 4'),'Missing Spanish GA4 privacy notice');
   await page.locator('#en').click();
   assert(await page.locator('#copy-en').isVisible(),'Privacy EN not visible');
   assert((await page.locator('#copy-en').innerText()).includes('tagged promotional link'),'Missing English lead-source privacy notice');
+  assert((await page.locator('#copy-en').innerText()).includes('Google Analytics 4'),'Missing English GA4 privacy notice');
+  assert.equal(await page.evaluate(()=>window.SHSAnalytics?.hasConsent()),true,'Consent lost across page navigation');
+  assert(await page.locator('#shs-analytics-settings').isVisible(),'Analytics preferences cannot be reopened');
   await shot(page,size.name+'-privacy');
   assert.deepEqual(jsErrors,[],size.name+' browser JS errors');
  }finally{await cx.close();}
 }
+async function testDecline(browser) {
+  const cx=await browser.newContext({viewport:{width:390,height:844}});
+  const page=await cx.newPage();
+  try {
+    await page.route('**/gtag/js?**',r=>r.fulfill({status:200,contentType:'text/javascript',body:''}));
+    await page.goto(BASE+'/',{waitUntil:'domcontentloaded'});
+    await page.locator('#shs-analytics-reject').click();
+    assert.equal(await page.evaluate(()=>localStorage.getItem('shs-analytics-choice-v1')),'no');
+    assert.equal(await page.locator('script[src*="googletagmanager.com/gtag/js"]').count(),0);
+    await page.reload({waitUntil:'domcontentloaded'});
+    await page.waitForTimeout(300);
+    assert.equal(await page.locator('#shs-analytics-choice').count(),0,'Consent rejection ignored on reload');
+    assert.equal(await page.locator('script[src*="googletagmanager.com/gtag/js"]').count(),0,'Google tag loaded after rejection');
+    await page.locator('#shs-analytics-settings').click();
+    await page.locator('#shs-analytics-accept').click();
+    assert.equal(await page.evaluate(()=>window.SHSAnalytics.hasConsent()),true);
+    await page.locator('#shs-analytics-settings').click();
+    await page.locator('#shs-analytics-reject').click();
+    await page.waitForTimeout(550);
+    assert.equal(await page.evaluate(()=>localStorage.getItem('shs-analytics-choice-v1')),'no');
+    assert.equal(await page.locator('script[src*="googletagmanager.com/gtag/js"]').count(),0,'Tag not removed after revocation/reload');
+  } finally { await cx.close(); }
+}
 (async()=>{
  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
  try{
+   await testDecline(browser);console.log('PASS analytics opt-out and revocation');
    for(const size of sizes){
     try{await test(browser,size);console.log('PASS '+size.name)}
     catch(e){failures.push(size.name+': '+String(e.stack||e.message));console.error('FAIL '+size.name+': '+String(e.stack||e.message));}
