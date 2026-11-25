@@ -161,6 +161,12 @@
 
   function start() {
     addSettingsLink();
+    // The site's rendering framework may replace the footer after load.
+    // Reinsert the preference control if it gets removed during a rerender.
+    var observer = new MutationObserver(function () {
+      if (!document.getElementById('shs-analytics-settings')) addSettingsLink();
+    });
+    observer.observe(document.body, { subtree: true, childList: true });
     if (choice === 'yes') loadGoogleTag();
     else drawBanner(false);
     window.addEventListener('shs-lang', updateSettingsText);
